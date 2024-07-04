@@ -1,0 +1,50 @@
+html {
+    scrollbar-width: thin;
+    font-family: Matter, sans-serif;
+    font-size: 2.66vw;
+    text-align: left;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+
+}
+
+    
+    h1, h2, h3, h4, h5, p, a  {
+        font-size: inherit;
+      font-weight: inherit;
+      color: inherit;
+      text-decoration: inherit;
+    }
+
+
+    [data-split="line"],
+[data-card="text"],
+[data-card="box"],
+.h-swap {
+  visibility: hidden;
+  opacity: 0;
+}
+
+
+
+    @media (min-width: 768px) {
+        html {
+            font-size: .975vw;
+        }
+        
+        
+      }
+      
+      @media (min-width: 992px) {
+          html {
+              font-size: 1.075vw;
+          }
+      }
+      
+      @media (min-width: 1650px) {
+        html {
+            font-size: 16px;
+        }
+      }
