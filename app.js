@@ -1,5 +1,6 @@
 import gsap from "gsap";
 import Swiper from "swiper";
+import ScrollTrigger from "gsap";
 
 // Register ScrollTrigger with gsap
 gsap.registerPlugin(ScrollTrigger);
@@ -7,6 +8,13 @@ gsap.registerPlugin(ScrollTrigger);
 // Create shorthands
 var Sc = ScrollTrigger;
 var Qe = gsap;
+
+console.log("loaded");
+
+gsap.to("body", {
+  background: "black",
+  duration: 1,
+});
 
 (() => {
 

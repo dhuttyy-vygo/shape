@@ -590,10 +590,15 @@ var _gsapDefault = parcelHelpers.interopDefault(_gsap);
 var _swiper = require("swiper");
 var _swiperDefault = parcelHelpers.interopDefault(_swiper);
 // Register ScrollTrigger with gsap
-(0, _gsapDefault.default).registerPlugin(ScrollTrigger);
+(0, _gsapDefault.default).registerPlugin((0, _gsapDefault.default));
 // Create shorthands
-var Sc = ScrollTrigger;
+var Sc = (0, _gsapDefault.default);
 var Qe = (0, _gsapDefault.default);
+console.log("loaded");
+(0, _gsapDefault.default).to("body", {
+    background: "black",
+    duration: 1
+});
 (()=>{
     var vimeoModal = ()=>{
         const videoItems = document.querySelectorAll(".gl-video-item");
