@@ -1,16 +1,15 @@
 {
   "dependencies": {
-    "gsap": "^3.12.5",
+    "gsap": "npm:@gsap/shockingly@^3.12.5",
     "parcel": "^2.12.0",
     "swiper": "^11.1.4"
   },
   "name": "shape",
   "version": "1.0.0",
   "main": "app.js",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "parcel serve app.js app.css"
+    "start": "parcel serve app.js app.css quote.js"
   },
   "author": "",
   "license": "ISC",
