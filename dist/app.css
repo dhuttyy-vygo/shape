@@ -169,7 +169,7 @@ h1, h2, h3, h4, h5, p, a {
   }
 }
 
-.text-is-link a:before {
+.u-btn-text a:before {
   content: "";
   transform-origin: 0 0;
   -o-transition: -o-transform 1s cubic-bezier(.4, .22, .21, 1.04);
@@ -186,7 +186,7 @@ h1, h2, h3, h4, h5, p, a {
   transform: scaleX(0);
 }
 
-.text-is-link a:hover:before {
+.u-btn-text a:hover:before {
   transform: scaleX(1);
 }
 /*# sourceMappingURL=app.css.map */

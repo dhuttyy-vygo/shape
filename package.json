@@ -1,7 +1,9 @@
 {
   "dependencies": {
     "gsap": "npm:@gsap/shockingly@^3.12.5",
+    "lottie-web": "^5.12.2",
     "parcel": "^2.12.0",
+    "split-type": "^0.3.4",
     "swiper": "^11.1.4"
   },
   "name": "shape",

@@ -1,19 +1,142 @@
 import gsap from "gsap";
 import Swiper from "swiper";
-import ScrollTrigger from "gsap";
-import DrawSVGPlugin from "gsap/DrawSVGPlugin"
+import ScrollTrigger from "gsap/ScrollTrigger";
+import DrawSVGPlugin from "gsap/DrawSVGPlugin";
+import MorphSVGPlugin from "gsap/MorphSVGPlugin";
+import SplitType from "split-type";
+
+
+
 
 // Register ScrollTrigger with gsap
-gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);
+gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin,MorphSVGPlugin);
 
 // Create shorthands
 var Sc = ScrollTrigger;
 var Qe = gsap;
 
+
+
 console.log("loaded");
+
+let splitWords, splitLines;
+
+function runSplit(e) {
+  e || (e = document);
+  let t = e.querySelectorAll("[data-split-words]"),
+      o = e.querySelectorAll("[data-split-lines]");
+  (splitWords = new SplitType(t, { types: "lines, words" })), (splitLines = new SplitType(o, { types: "lines" }));
+}
+
+
+window.addEventListener("resize", function () {
+windowWidth !== $(window).innerWidth() && ((windowWidth = $(window).innerWidth()), splitWords.revert(), splitLines.revert(), runSplit());
+})
+runSplit();
+
 
 
 (() => {
+
+  
+  
+  function initPictograms(e) {
+    e || (e = document);
+    e.querySelectorAll(".picto-lottie") &&
+        (function (e) {
+            let t = { frame: 0 },
+                o = gsap.utils.toArray(e.target)[0],
+                r = { trigger: ".trigger"},
+                n = gsap.context && gsap.context(),
+                a = lottie.loadAnimation({ container: o, renderer: e.renderer || "svg", loop: !1, autoplay: !1, path: e.path, rendererSettings: e.rendererSettings || { preserveAspectRatio: "xMidYMid slice" } });
+            for (let t in e) r[t] = e[t];
+            a.addEventListener("DOMLoaded", function () {
+                let e = function () {
+                    return (a.frameTween = gsap.to(t, { frame: a.totalFrames - 1, ease: "none", onUpdate: () => a.goToAndStop(t.frame, !0), scrollTrigger: r })), () => a.destroy && a.destroy();
+                };
+                n && n.add ? n.add(e) : e();
+            });
+        })({
+          trigger: ".picto-lottie",
+          start: "top center",
+          endTrigger: "[data-picto-wrap]",
+          end: "bottom bottom",
+          renderer: "svg",
+          target: ".picto-lottie",
+          path: "https://uploads-ssl.webflow.com/65f9a5a60db886a6050561ba/6606964c19d287dd92df89f2_C5_Icons_0328.json",
+          scrub: 2,
+        });
+  }
+  
+  
+  
+  initPictograms();
+
+
+
+
+  function initPageEnd() {
+    const el = document.querySelectorAll(".footer_wrapper");
+    if (!el.length) return;
+
+    el.forEach((els) => {
+      let t = els.querySelector(".spacer_wrap"),
+        e = els.querySelector(".footer-end"),
+        r = els.querySelector(".footer_inner"),
+        n = els.querySelector(".footer_el.is-center");
+    if (!t) return;
+    let a = gsap.timeline({ defaults: { ease: "linear" } });
+    a
+        .fromTo(
+            "#progress",
+            { drawSVG: "0%" },
+            {
+                drawSVG: "100%",
+                duration: 1,
+            }
+        )
+        .fromTo(r, { opacity: 0, yPercent: 35 }, { opacity: 1, yPercent: 0, duration: 1 }, 0)
+        .fromTo(n, { rotate: 50 }, { rotate: 0, duration: 1 }, 0),
+        ScrollTrigger.create({ trigger: t, animation: a, start: "bottom 90%", endTrigger: e, end: "bottom-=2 bottom", scrub: !0 });
+
+    })
+    
+    
+  }
+
+
+  function initHeadings(e) {
+    function t(e, t) {
+        ScrollTrigger.create({
+            trigger: e,
+            start: "top bottom",
+            onLeaveBack: () => {
+                t.progress(0), t.pause();
+            },
+        }),
+            ScrollTrigger.create({
+                trigger: e,
+                start: "top 85%",
+                onEnter: () => {
+                    t.play();
+                },
+            });
+    }
+    e || (e = document);
+    let o = document.querySelectorAll("[data-title]");
+    (splitWords = new SplitType(o, { types: "lines" })),
+        o.forEach(function (e, o) {
+            let r = gsap.timeline({ paused: !0 });
+            r.fromTo(e.querySelectorAll(".line"), { opacity: 0, yPercent: 75 }, { opacity: 1, yPercent: 0, duration: 0.8, ease: "menu", stagger: { amount: 0.1 } }), t(e, r);
+        });
+    let r = e.querySelectorAll(".is-overline");
+    if (r) {
+        r.forEach(function (e, o) {
+            let r = gsap.timeline({ paused: !0 });
+            r.fromTo(e, { "--strikethrough": 0 }, { "--strikethrough": 1, duration: 1, delay: 0.5, ease: "expo.inOut", stagger: { amount: 0.1 } }), t(e, r);
+        });
+    }
+}
 
 var navinit = function () {
 const toggleBtn = document.querySelector(".sg-menu-toggle"),
@@ -76,6 +199,86 @@ var hide = function () {
 
 bindToggle();
 };
+
+
+
+function initHighlights(e) {
+  e || (e = document);
+  let t = e.querySelectorAll(".highlight-line"),
+      o = e.querySelectorAll(".bg-line"),
+      r = e.querySelectorAll(".intro-line"),
+      n = e.querySelectorAll(".word");
+  
+      gsap.set([t, o, r], { strokeDashoffset: -1600 }),
+      gsap.from(n, { autoAlpha: 0, duration: 0.6, ease: "power3.inOut", delay: 2, stagger: 0.1 }),
+      // gsap.from([i, l], { autoAlpha: 0, yPercent: 50, duration: 0.8, ease: "power3.inOut", delay: 2.6, stagger: 0.05 }),
+      // gsap.from(s, { scaleY: 0, delay: 2.7, duration: 0.6, ease: "power3.inOut" }),
+      gsap.fromTo(o, { drawSVG: "0%" }, { drawSVG: "100%", duration: 4, ease: "power4.inOut", stagger: { each: 0.05, from: "left" } }),
+      gsap.from(o, { stroke: "#FFFFFF20", delay: 2, duration: 2, ease: "power4.inOut" }),
+      gsap.fromTo(r, { strokeDashoffset: -1500, strokeDasharray: "1600px 1500px" }, { strokeDashoffset: 1500, strokeDasharray: "0px 1500px", duration: 4, delay: 0, ease: "power3.inOut", stagger: { each: 0.05, from: "left" } }),
+      gsap.delayedCall(1.75, () => {
+          gsap.fromTo(t, { strokeDashoffset: -1550 }, { strokeDashoffset: 1550, duration: 4, ease: "circ.inOut", stagger: { each: 0.05, from: "center" }, repeat: -1 });
+      });
+}
+
+function initBlob(e) {
+  e || (e = document);
+  const t = {
+      inner: [
+          { path: "M282.3 0C525.94 0 714 207.447 714 451.898C714 655.918 485.644 744 282.3 744C123.932 744 0 610.793 0 451.898C0 243.621 74.7142 0 282.3 0Z", color: "#4C00FF" },
+          {
+              path:
+                  "M375.429 0.103177C509.902 1.9222 659.452 36.7684 701.193 164.738C743.058 293.087 643.927 410.92 535.723 491.533C422.146 576.15 277.867 645.913 159.3 568.458C25.066 480.769 -35.6318 305.494 21.3907 155.542C72.0736 22.261 232.971 -1.82384 375.429 0.103177Z",
+              color: "#26065D",
+          },
+          { path: "M373.039 13.8828C592.854 -36.1491 884 45.5798 884 315.714C884 541.171 765.716 818 540.582 818C365.244 818 0 593.613 0 418.023C0 187.863 165.6 61.0977 373.039 13.8828Z", color: "#FF5252" },
+      ],
+      outer: [
+          { path: "M369.284 0C687.994 0 934 270.741 934 589.775C934 856.044 635.283 971 369.284 971C162.118 971 0 797.15 0 589.775C0 317.952 97.7354 0 369.284 0Z", color: "#EDE5FF" },
+          {
+              path:
+                  "M532.781 0.146025C723.616 2.72045 935.846 52.0376 995.082 233.151C1054.49 414.801 913.815 581.567 760.26 695.659C599.08 815.415 394.329 914.149 226.067 804.529C35.5718 680.424 -50.566 432.361 30.3561 220.136C102.282 31.5056 330.616 -2.58125 532.781 0.146025Z",
+              color: "#E9E6EF",
+          },
+          { path: "M373.039 13.8828C592.854 -36.1491 884 45.5798 884 315.714C884 541.171 765.716 818 540.582 818C365.244 818 0 593.613 0 418.023C0 187.863 165.6 61.0977 373.039 13.8828Z", color: "#FFEEEE" },
+      ],
+  };
+  let o = gsap.timeline({ repeat: -1, repeatDelay: 0 }),
+      r = e.querySelector("#innerBlob"),
+      n = e.querySelector("#outerBlob"),
+      a = e.querySelectorAll(".u-blob-text");
+  const i = 0.8,
+      l = t.inner.length;
+  t.inner.forEach((e, a) => {
+      const l = t.outer[a];
+      o.to(r, { morphSVG: { shape: e.path, type: "rotational", origin: "80% 80% 100% 50%" }, fill: e.color, duration: i, ease: "power2.inOut" }, 1.3 * a).to(
+          n,
+          { morphSVG: { shape: l.path, type: "rotational", origin: "80% 80% 100% 50%" }, fill: l.color, duration: i, ease: "power2.inOut" },
+          1.3 * a
+      );
+  }),
+      o.to(a, { y: "-100%", duration: i, ease: "power2.inOut" }, "1.1"),
+      o.to(a, { y: "-200%", duration: i, ease: "power2.inOut" }, 1.3 + 1.1),
+      o.to(
+          a,
+          {
+              y: "-300%",
+              duration: i,
+              ease: "power2.inOut",
+              onComplete: () => {
+                  gsap.set(a, { y: "0%" });
+              },
+          },
+          3 * 1.3
+      );
+  const s = t.inner[0],
+      u = t.outer[0];
+  o.to(r, { morphSVG: s.path, fill: s.color, duration: i, ease: "power2.inOut" }, 1.3 * l).to(n, { morphSVG: u.path, fill: u.color, duration: i, ease: "power2.inOut" }, 1.3 * l);
+}
+
+
+
+
 
 var vimeoModal = () => {
   const videoItems = document.querySelectorAll(".gl-video-item");
@@ -160,6 +363,10 @@ var reelerX = function () {
       });
 
       const fleet = document.querySelectorAll(".gl-fleet");
+      if (!fleet) {
+        console.log("No marquee not found on the page");
+        return;
+      }
 
       fleet.forEach((e) => {
       const items = e.querySelector(".gl-fleet-items"),
@@ -201,8 +408,8 @@ var reelerX = function () {
 };
   
 var faqAccord = function () {
-let groups = gsap.utils.toArray(".faq-menu");
-let menus = gsap.utils.toArray(".faq-item");
+let groups = Qe.utils.toArray(".faq-menu");
+let menus = Qe.utils.toArray(".faq-item");
 let menuToggles = [];
 
 if (!groups) {
@@ -239,10 +446,10 @@ let plusSign = element.querySelector(".plus");
 let cardBack = element.querySelector(".faq-item");
 let questionText = element.querySelector(".question");
 
-gsap.set(box, { height: "auto" });
-gsap.set(questionText, { marginLeft: "2vw" });
+Qe.set(box, { height: "auto" });
+Qe.set(questionText, { marginLeft: "2vw" });
 
-let timeline = gsap
+let timeline = Qe
     .timeline({ paused: true })
     .from(box, {
     height: 0,
@@ -273,32 +480,14 @@ return timeline;
 }
 };
 
-function initHighlights(e) {
-  e || (e = document);
-  let t = e.querySelectorAll(".highlight-line"),
-      o = e.querySelectorAll(".bg-line"),
-      r = e.querySelectorAll(".intro-line");
 
-  gsap.fromTo("#nav", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.5, clearProps: "yPercent", ease: "power4.out" });
 
-  gsap.set([t, o, r], { strokeDashoffset: -1600 });
-
-  gsap.fromTo(o, { drawSVG: "0%" }, { drawSVG: "100%", duration: 4, ease: "power4.inOut", stagger: { each: 0.05, from: "left" } });
-
-  gsap.from(o, { stroke: "#FFFFFF20", delay: 2, duration: 2, ease: "power4.inOut" });
-
-  gsap.fromTo(r, { strokeDashoffset: -1500, strokeDasharray: "1600px 1500px" }, { strokeDashoffset: 1500, strokeDasharray: "0px 1500px", duration: 4, delay: 0, ease: "power3.inOut", stagger: { each: 0.05, from: "left" } });
-
-  gsap.delayedCall(1.75, () => {
-      gsap.fromTo(t, { strokeDashoffset: -1550 }, { strokeDashoffset: 1550, duration: 4, ease: "circ.inOut", stagger: { each: 0.05, from: "center" }, repeat: -1 });
-  });
-}
           
       
-  
+  // loaded //
 window.addEventListener("DOMContentLoaded", function () {
 
-navinit(),vimeoModal(), reelerX(), faqAccord(), initHighlights;
+navinit(),vimeoModal(), reelerX(), faqAccord(), initHighlights(), initBlob(), initPageEnd(), initHeadings();
 
 setTimeout(() => {
 $("[gl-text]").each(function (index) {
@@ -461,8 +650,8 @@ function getPercentLeft(el, e) {
 $(this).on("mouseenter", function (e) {
   let percentTop = getPercentTop($(this), e);
   let percentLeft = getPercentLeft($(this), e);
-  gsap.set(clipEl, { display: "flex" });
-  gsap.fromTo(
+  Qe.set(clipEl, { display: "flex" });
+  Qe.fromTo(
     clipEl,
     { clipPath: `circle(0% at ${percentLeft}% ${percentTop}%)` },
     {
@@ -475,7 +664,7 @@ $(this).on("mouseenter", function (e) {
 $(this).on("mouseleave", function (e) {
   let percentTop = getPercentTop($(this), e);
   let percentLeft = getPercentLeft($(this), e);
-  gsap.to(clipEl, {
+  Qe.to(clipEl, {
     clipPath: `circle(0% at ${percentLeft}% ${percentTop}%)`,
     overwrite: true,
     duration: durationSetting,
@@ -490,10 +679,10 @@ cards.forEach((e) => {
 const card = e.querySelectorAll("[data-card=box]"),
     title = e.querySelectorAll("[data-card=text]");
 
-gsap.set(card, { autoAlpha: 1 });
-gsap.set(title, { autoAlpha: 1 });
+Qe.set(card, { autoAlpha: 1 });
+Qe.set(title, { autoAlpha: 1 });
 
-const tl = gsap.timeline({
+const tl = Qe.timeline({
     scrollTrigger: {
     trigger: e,
     start: "top bottom",
@@ -539,10 +728,10 @@ document.querySelectorAll(".gl-card-feature").forEach((e) => {
 const t = e.querySelector("picture");
 
 // Set initial properties
-gsap.set(t, { yPercent: -10, scale: 1.05, willChange: "transform" });
+Qe.set(t, { yPercent: -10, scale: 1.05, willChange: "transform" });
 
-// Create a GSAP timeline with ScrollTrigger
-const tl = gsap.timeline({
+// Create a Qe timeline with ScrollTrigger
+const tl = Qe.timeline({
     scrollTrigger: {
     trigger: e,
     start: "top bottom",
