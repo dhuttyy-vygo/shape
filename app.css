@@ -265,7 +265,7 @@ transition-duration: 0s, 0s;
 }
 }
 
-.text-is-link a:before {
+.u-btn-text a:before {
     content: "";
     display: block;
     position: absolute;
@@ -288,7 +288,7 @@ transform-origin: 0 0;
     transition: transform .45s cubic-bezier(.4,.22,.21,1.04),-webkit-transform .45s cubic-bezier(.4,.22,.21,1.04),-moz-transform .45s cubic-bezier(.4,.22,.21,1.04),-o-transform .45s cubic-bezier(.4,.22,.21,1.04);
 }
 
-.text-is-link a:hover:before {
+.u-btn-text a:hover:before {
     -webkit-transform: scaleX(1);
     -moz-transform: scaleX(1);
     -ms-transform: scaleX(1);
