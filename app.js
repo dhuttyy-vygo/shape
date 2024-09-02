@@ -21,6 +21,8 @@ console.log("loaded");
 
 let splitWords, splitLines;
 
+windowWidth = $(window).innerWidth();
+
 function runSplit(e) {
   e || (e = document);
   let t = e.querySelectorAll("[data-split-words]"),
@@ -58,12 +60,12 @@ runSplit();
             });
         })({
           trigger: ".picto-lottie",
-          start: "top center",
+          start: "top top",
           endTrigger: "[data-picto-wrap]",
           end: "bottom bottom",
           renderer: "svg",
           target: ".picto-lottie",
-          path: "https://uploads-ssl.webflow.com/65f9a5a60db886a6050561ba/6606964c19d287dd92df89f2_C5_Icons_0328.json",
+          path: "https://uploads-ssl.webflow.com/6687cdef47183ee9c31a61bf/66bcd1942d16184e581cacc2_12.json", // to change and duplicate WIP // 
           scrub: 2,
         });
   }
@@ -72,6 +74,201 @@ runSplit();
   
   initPictograms();
 
+  function initMachineHero(e) {
+    e || (e = document);
+    let heroes = e.querySelectorAll("[data-text-scrub]");
+
+    if (!heroes.length) {
+        return;
+    }
+
+    heroes.forEach((t) => {
+        let a = t.querySelectorAll("._0120"),
+            aa = a[0], // First element
+            i = a[1],
+            o = a[2],
+            p = a[3];
+
+        if (!aa || !i || !o || !p) {
+            console.warn("Not enough elements found within [data-machine-hero].");
+            return;
+        }
+
+       
+        Qe.set(aa, { visibility: "visible" });
+        Qe.set([i, o, p], { autoAlpha: 0, y: "65px" });
+
+        let tl = Qe.timeline({ paused: true });
+     
+        tl.fromTo(aa, 
+                  { y: "0px" }, 
+                  { y: "-65px", autoAlpha: 0, duration: 1 })
+          .fromTo(i, 
+                  { y: "65px" }, 
+                  { y: "-65px", duration: 1 }, 1)
+                  
+          .fromTo(i,
+              { autoAlpha: 0 },
+              { autoAlpha: 1, duration: .5 }, 1)
+          .to(i, 
+                { autoAlpha: 0, duration: .5 }, 1.5)
+          
+          .fromTo(o, 
+                  { y: "65px" }, 
+                  { y: "-65px", duration: 1 }, 2)
+                  
+          .fromTo(o,
+              { autoAlpha: 0 },
+              { autoAlpha: 1, duration: .5 }, 2)
+          .to(o, 
+                { autoAlpha: 0, duration: .5 }, 2.5)
+          
+          .fromTo(p, 
+                  { y: "65px" }, 
+                  { y: "-65px", duration: 1 }, 3)
+                  
+          .fromTo(p,
+              { autoAlpha: 0 },
+              { autoAlpha: 1, duration: .5 }, 3);
+
+        // Optionally, you could trigger this timeline on scroll with ScrollTrigger
+        ScrollTrigger.create({
+            trigger: t,
+            start: "top top",
+            end: "bottom top",
+            animation: tl,
+            scrub: true,
+        });
+    });
+}
+
+function initStickywipe(e) {
+  e || (e = document);
+  let wipeUp = e.querySelectorAll(".o01239");
+
+  if (!wipeUp.length) {
+      return;
+  }
+
+  wipeUp.forEach((t) => {
+      let i = t.querySelector(".csi102s"),
+          out = t.querySelector(".o09"),
+          o = t.querySelector(".uto912");
+      
+    Qe.set( o, {autoAlpha: 0 });
+      let tl = Qe.timeline({ paused: true });
+      let tlI = Qe.timeline({ paused: true });
+
+     tl
+        .fromTo(o, 
+                { y: "65px" }, 
+                { y: "-65px", duration: 3}, 0)
+        .fromTo(o,
+          { autoAlpha: 0 },
+          { autoAlpha: 1 , duration: .7}, 0)
+                
+      tlI
+      .fromTo(i, 
+                { yPercent: -40 }, 
+                { yPercent: 0, duration: 1 })
+      
+      // tlOut
+      //   .to(i, { yPercent: 0}, {yPercent: 40, duration: 1}, 0)
+      //   .to(o, 
+      //     { autoAlpha: 0 , duration: 1}, 0);          
+      
+
+      // Optionally, you could trigger this timeline on scroll with ScrollTrigger
+      ScrollTrigger.create({
+          trigger: t,
+          start: "top 20%",
+          end: "top+=35%",
+          animation: tl,
+          scrub: true,
+          markers: true,
+      });
+      ScrollTrigger.create({
+        trigger: out,
+        start: "top bottom",
+        end: "top top",
+        animation: tlI,
+        markers: true,
+        scrub: true,
+    });
+    
+  });
+}
+
+function initMaterialStick(e) {
+  e || (e = document);
+  let t = e.querySelector(".c8123"),
+      a = e.querySelectorAll(".clip1230"),
+      i = a[0],
+      o = a[1],
+      p = a[2],
+      x = e.querySelectorAll(".txt10123"),
+      b = x[0],
+      n = x[1],
+      m = x[2];
+
+      if (!t) {
+        return;
+    }
+
+      Qe.set([o, p], { clipPath: "clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)"});
+      Qe.set([n, m], {opacity: .6});
+
+      let tl = Qe.timeline({ paused: !0});
+
+      tl
+      .fromTo(i, 
+        { clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)" }, 
+        { clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)", duration: .1 }
+      )
+      .fromTo(o, 
+        { clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" }, 
+        { clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)" }
+      )
+      .fromTo( b, {opacity: 1}, { opacity: .4, duration: .4}, "<")
+      .to(n, { opacity: 1}, "<")
+      .fromTo(p, 
+        { clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" }, 
+        { clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)" }
+      )
+      .to( n, { opacity: .4,  duration: .4}, "<")
+      .to(m, { opacity: 1,  duration: .4}, "<");
+
+      ScrollTrigger.create({ trigger: t, animation: tl, start: "top top", end: "bottom bottom", scrub: !0});
+      
+}
+
+// Exploded view animation - WIP //
+  function initExplode(e) {
+    e || (e = document);
+    let t = e.querySelector("[data-explode]"),
+        a = e.querySelectorAll(".u-img-to-explode"),
+        i = a[0],
+        l = a[1],
+        s = a[2];
+        
+    gsap.set(a, { visibility: "visible" }),
+        // gsap.set([o, r, n], { display: "block" }),
+        gsap
+            .timeline({ defaults: { ease: "sine.out", duration: 0.6 } })
+            .fromTo(i, { y: "-30vw" }, { y: "0vw", duration: 1, ease: "expo.out" }, 0)
+            // .fromTo(r, { y: "0vw" }, { y: "-25vw", duration: 0.8 }, 0.1)
+            .fromTo(l, { y: "10vw" }, { y: "0vw", duration: 1, ease: "expo.out" }, "<")
+            // .fromTo(n, { y: "0vw" }, { y: "-40vw", duration: 0.6 }, 0.2)
+            .fromTo(s, { y: "20vw" }, { y: "0vw", duration: 1.3, ease: "expo.out" }, "<")
+            // .fromTo([o, r, n], { opacity: 1 }, { opacity: 0, duration: 0.6, ease: "power1.out" }, 0.6);
+    let m = gsap.timeline({ defaults: { ease: "linear", duration: 1 }, paused: !0 });
+    m
+        .fromTo(i, { y: "-10vw" }, { y: "0vw" })
+        .fromTo(s, { y: "-30vw" }, { y: "0vw", duration: 1 }, 0)
+        
+        ScrollTrigger.create({ trigger: t, animation: m, start: "top top", end: "bottom center-=30%", scrub: !0 }),
+        (colorIntroFlag = !1);
+}
 
 
 
@@ -487,7 +684,7 @@ return timeline;
   // loaded //
 window.addEventListener("DOMContentLoaded", function () {
 
-navinit(),vimeoModal(), reelerX(), faqAccord(), initHighlights(), initBlob(), initPageEnd(), initHeadings();
+navinit(),vimeoModal(), reelerX(), faqAccord(), initHighlights(), initBlob(), initPageEnd(), initHeadings(), initExplode(), initMachineHero(), initMaterialStick(), initStickywipe();
 
 setTimeout(() => {
 $("[gl-text]").each(function (index) {
