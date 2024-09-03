@@ -666,10 +666,7 @@ runSplit();
         if (!heroes.length) return;
         heroes.forEach((t)=>{
             let a = t.querySelectorAll("._0120"), aa = a[0], i = a[1], o = a[2], p = a[3];
-            if (!aa || !i || !o || !p) {
-                console.warn("Not enough elements found within [data-machine-hero].");
-                return;
-            }
+            if (!aa || !i || !o || !p) return;
             Qe.set(aa, {
                 visibility: "visible"
             });
@@ -731,9 +728,10 @@ runSplit();
             (0, _scrollTriggerDefault.default).create({
                 trigger: t,
                 start: "top top",
-                end: "bottom top",
+                end: "bottom center",
                 animation: tl,
-                scrub: true
+                scrub: true,
+                markers: !0
             });
         });
     }
@@ -779,15 +777,13 @@ runSplit();
                 start: "top 20%",
                 end: "top+=35%",
                 animation: tl,
-                scrub: true,
-                markers: true
+                scrub: true
             });
             (0, _scrollTriggerDefault.default).create({
                 trigger: out,
                 start: "top bottom",
                 end: "top top",
                 animation: tlI,
-                markers: true,
                 scrub: true
             });
         });

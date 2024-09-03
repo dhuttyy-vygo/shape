@@ -90,7 +90,7 @@ runSplit();
             p = a[3];
 
         if (!aa || !i || !o || !p) {
-            console.warn("Not enough elements found within [data-machine-hero].");
+
             return;
         }
 
@@ -135,9 +135,10 @@ runSplit();
         ScrollTrigger.create({
             trigger: t,
             start: "top top",
-            end: "bottom top",
+            end: "bottom center",
             animation: tl,
             scrub: true,
+            markers: !0,
         });
     });
 }
@@ -185,14 +186,14 @@ function initStickywipe(e) {
           end: "top+=35%",
           animation: tl,
           scrub: true,
-          markers: true,
+          
       });
       ScrollTrigger.create({
         trigger: out,
         start: "top bottom",
         end: "top top",
         animation: tlI,
-        markers: true,
+        
         scrub: true,
     });
     
