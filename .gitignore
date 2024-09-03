@@ -6,6 +6,8 @@ node_modules/
 
 .parcel-cache/
 
+.data.mdb
+
 # Ignore environment variable files
 .env
 
