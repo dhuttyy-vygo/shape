@@ -8,10 +8,9 @@
   },
   "name": "shape",
   "version": "1.0.0",
-  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "parcel serve app.js app.css quote.js"
+    "start": "parcel serve app.js app.css quote.js",
+    "build": "parcel build app.js app.css quote.js"
   },
   "author": "",
   "license": "ISC",

@@ -588,7 +588,6 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _gsap = require("gsap");
 var _gsapDefault = parcelHelpers.interopDefault(_gsap);
 var _swiper = require("swiper");
-var _swiperDefault = parcelHelpers.interopDefault(_swiper);
 var _scrollTrigger = require("gsap/ScrollTrigger");
 var _scrollTriggerDefault = parcelHelpers.interopDefault(_scrollTrigger);
 var _drawSVGPlugin = require("gsap/DrawSVGPlugin");
@@ -1246,37 +1245,42 @@ runSplit();
         };
     };
     var reelerX = function() {
-        const marquee = document.querySelectorAll(".gl-marquee");
+        const marquee = document.querySelectorAll(".u-swipe");
         if (!marquee) {
             console.log("No marquee not found on the page");
             return;
         }
         marquee.forEach((e)=>{
-            const items = e.querySelector(".gl-marquee-items"), item = e.querySelectorAll(".gl-marquee-item");
+            const items = e.querySelector(".u-swipe-items"), item = e.querySelectorAll(".u-swipe-item");
             e.classList.add("swiper-container");
             items.classList.add("swiper-wrapper");
             item.forEach((e)=>e.classList.add("swiper-slide"));
-            const slider = new (0, _swiperDefault.default)(e, {
+            const slider = new (0, _swiper.Swiper)(e, {
                 slidesPerView: "auto",
                 loop: false,
+                slidesPerView: 1,
+                slidesPerGroup: 1,
+                speed: 300,
+                spaceBetween: 50,
                 // Adding navigation options
-                navigation: {
-                    nextEl: ".gl-swipe-button.next",
-                    prevEl: ".gl-swipe-button.back"
+                // navigation: {
+                // nextEl: ".gl-swipe-button.next", // Specify the class for the next button
+                // prevEl: ".gl-swipe-button.back", // Specify the class for the previous button
+                // },
+                breakpoints: {
+                    991: {
+                        slidesPerView: "auto"
+                    }
                 }
             });
         });
         const fleet = document.querySelectorAll(".gl-fleet");
-        if (!fleet) {
-            console.log("No marquee not found on the page");
-            return;
-        }
         fleet.forEach((e)=>{
             const items = e.querySelector(".gl-fleet-items"), item = e.querySelectorAll(".gl-fleet-item");
             e.classList.add("swiper-container");
             items.classList.add("swiper-wrapper");
             item.forEach((e)=>e.classList.add("swiper-slide"));
-            const slider = new (0, _swiperDefault.default)(e, {
+            const slider = new (0, _swiper.Swiper)(e, {
                 loop: true,
                 centeredSlides: true,
                 slidesPerView: 1,
@@ -1289,8 +1293,8 @@ runSplit();
                 },
                 // Adding navigation options
                 navigation: {
-                    nextEl: ".gl-fleet-back",
-                    prevEl: ".gl-fleet-next"
+                    nextEl: ".gl-fleet-button.next",
+                    prevEl: ".gl-fleet-button.back"
                 },
                 breakpoints: {
                     150: {
@@ -1613,15 +1617,13 @@ runSplit();
                 ease: "none"
             });
         });
-    // stagger in mutliple cards / blocks //
     });
-    // end of dom contentLoaded //
     window.addEventListener("pagehide", function() {
         window.scrollTo(0, 0);
     });
 })();
 
-},{"gsap":"fPSuC","swiper":"iM6UL","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","gsap/DrawSVGPlugin":"htWnw","gsap/ScrollTrigger":"7wnFk","gsap/MorphSVGPlugin":"3eezk","split-type":"fvGAG"}],"fPSuC":[function(require,module,exports) {
+},{"gsap":"fPSuC","swiper":"iM6UL","gsap/ScrollTrigger":"7wnFk","gsap/DrawSVGPlugin":"htWnw","gsap/MorphSVGPlugin":"3eezk","split-type":"fvGAG","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fPSuC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "gsap", ()=>gsapWithCSS);
@@ -5677,7 +5679,7 @@ var CSSPlugin = {
 
 },{"./gsap-core.js":"05eeC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iM6UL":[function(require,module,exports) {
 /**
- * Swiper 11.1.4
+ * Swiper 11.1.12
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * https://swiperjs.com
  *
@@ -5685,7 +5687,7 @@ var CSSPlugin = {
  *
  * Released under the MIT License
  *
- * Released on: May 30, 2024
+ * Released on: September 1, 2024
  */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Swiper", ()=>(0, _swiperCoreMjs.S));
@@ -5879,7 +5881,7 @@ function Observer(_ref) {
         });
         observer.observe(target, {
             attributes: typeof options.attributes === "undefined" ? true : options.attributes,
-            childList: typeof options.childList === "undefined" ? true : options.childList,
+            childList: swiper.isElement || (typeof options.childList === "undefined" ? true : options).childList,
             characterData: typeof options.characterData === "undefined" ? true : options.characterData
         });
         observers.push(observer);
@@ -6010,8 +6012,8 @@ function updateSize() {
     else height = el.clientHeight;
     if (width === 0 && swiper.isHorizontal() || height === 0 && swiper.isVertical()) return;
     // Subtract paddings
-    width = width - parseInt((0, _utilsMjs.o)(el, "padding-left") || 0, 10) - parseInt((0, _utilsMjs.o)(el, "padding-right") || 0, 10);
-    height = height - parseInt((0, _utilsMjs.o)(el, "padding-top") || 0, 10) - parseInt((0, _utilsMjs.o)(el, "padding-bottom") || 0, 10);
+    width = width - parseInt((0, _utilsMjs.p)(el, "padding-left") || 0, 10) - parseInt((0, _utilsMjs.p)(el, "padding-right") || 0, 10);
+    height = height - parseInt((0, _utilsMjs.p)(el, "padding-top") || 0, 10) - parseInt((0, _utilsMjs.p)(el, "padding-bottom") || 0, 10);
     if (Number.isNaN(width)) width = 0;
     if (Number.isNaN(height)) height = 0;
     Object.assign(swiper, {
@@ -6073,7 +6075,7 @@ function updateSlides() {
         let slide;
         if (slides[i]) slide = slides[i];
         if (gridEnabled) swiper.grid.updateSlide(i, slide, slides);
-        if (slides[i] && (0, _utilsMjs.o)(slide, "display") === "none") continue; // eslint-disable-line
+        if (slides[i] && (0, _utilsMjs.p)(slide, "display") === "none") continue; // eslint-disable-line
         if (params.slidesPerView === "auto") {
             if (shouldResetSlideSize) slides[i].style[swiper.getDirectionLabel("width")] = ``;
             const slideStyles = getComputedStyle(slide);
@@ -6171,7 +6173,7 @@ function updateSlides() {
             allSlidesSize += slideSizeValue + (spaceBetween || 0);
         });
         allSlidesSize -= spaceBetween;
-        const maxSnap = allSlidesSize - swiperSize;
+        const maxSnap = allSlidesSize > swiperSize ? allSlidesSize - swiperSize : 0;
         snapGrid = snapGrid.map((snap)=>{
             if (snap <= 0) return -offsetBefore;
             if (snap > maxSnap) return maxSnap + offsetAfter;
@@ -6379,10 +6381,10 @@ function updateSlidesClasses() {
     if (activeSlide) {
         if (!gridEnabled) {
             // Next Slide
-            nextSlide = (0, _utilsMjs.p)(activeSlide, `.${params.slideClass}, swiper-slide`)[0];
+            nextSlide = (0, _utilsMjs.q)(activeSlide, `.${params.slideClass}, swiper-slide`)[0];
             if (params.loop && !nextSlide) nextSlide = slides[0];
             // Prev Slide
-            prevSlide = (0, _utilsMjs.q)(activeSlide, `.${params.slideClass}, swiper-slide`)[0];
+            prevSlide = (0, _utilsMjs.r)(activeSlide, `.${params.slideClass}, swiper-slide`)[0];
             params.loop;
         }
     }
@@ -6631,7 +6633,7 @@ function translateTo(translate, speed, runCallbacks, translateBounds, internal) 
         if (speed === 0) wrapperEl[isH ? "scrollLeft" : "scrollTop"] = -newTranslate;
         else {
             if (!swiper.support.smoothScroll) {
-                (0, _utilsMjs.r)({
+                (0, _utilsMjs.t)({
                     swiper,
                     targetPosition: -newTranslate,
                     side: isH ? "left" : "top"
@@ -6780,8 +6782,11 @@ function slideTo(index, speed, runCallbacks, internal, initial) {
     if (slideIndex > activeIndex) direction = "next";
     else if (slideIndex < activeIndex) direction = "prev";
     else direction = "reset";
+    // initial virtual
+    const isVirtual = swiper.virtual && swiper.params.virtual.enabled;
+    const isInitialVirtual = isVirtual && initial;
     // Update Index
-    if (rtl && -translate === swiper.translate || !rtl && translate === swiper.translate) {
+    if (!isInitialVirtual && (rtl && -translate === swiper.translate || !rtl && translate === swiper.translate)) {
         swiper.updateActiveIndex(slideIndex);
         // Update Height
         if (params.autoHeight) swiper.updateAutoHeight();
@@ -6797,7 +6802,6 @@ function slideTo(index, speed, runCallbacks, internal, initial) {
         const isH = swiper.isHorizontal();
         const t = rtl ? translate : -translate;
         if (speed === 0) {
-            const isVirtual = swiper.virtual && swiper.params.virtual.enabled;
             if (isVirtual) {
                 swiper.wrapperEl.style.scrollSnapType = "none";
                 swiper._immediateVirtual = true;
@@ -6814,7 +6818,7 @@ function slideTo(index, speed, runCallbacks, internal, initial) {
             });
         } else {
             if (!swiper.support.smoothScroll) {
-                (0, _utilsMjs.r)({
+                (0, _utilsMjs.t)({
                     swiper,
                     targetPosition: t,
                     side: isH ? "left" : "top"
@@ -7081,7 +7085,7 @@ function loopCreate(slideRealIndex) {
             addBlankSlides(slidesToAdd);
             swiper.recalcSlides();
             swiper.updateSlides();
-        } else (0, _utilsMjs.t)("Swiper Loop Warning: The number of slides is not even to slidesPerGroup, loop mode may not function properly. You need to add more slides (or make duplicates, or empty slides)");
+        } else (0, _utilsMjs.u)("Swiper Loop Warning: The number of slides is not even to slidesPerGroup, loop mode may not function properly. You need to add more slides (or make duplicates, or empty slides)");
         initSlides();
     } else if (shouldFillGrid) {
         if (params.loopAddBlankSlides) {
@@ -7089,7 +7093,7 @@ function loopCreate(slideRealIndex) {
             addBlankSlides(slidesToAdd);
             swiper.recalcSlides();
             swiper.updateSlides();
-        } else (0, _utilsMjs.t)("Swiper Loop Warning: The number of slides is not even to grid.rows, loop mode may not function properly. You need to add more slides (or make duplicates, or empty slides)");
+        } else (0, _utilsMjs.u)("Swiper Loop Warning: The number of slides is not even to grid.rows, loop mode may not function properly. You need to add more slides (or make duplicates, or empty slides)");
         initSlides();
     } else initSlides();
     swiper.loopFix({
@@ -7129,8 +7133,8 @@ function loopFix(_temp) {
     loopedSlides += params.loopAdditionalSlides;
     swiper.loopedSlides = loopedSlides;
     const gridEnabled = swiper.grid && params.grid && params.grid.rows > 1;
-    if (slides.length < slidesPerView + loopedSlides) (0, _utilsMjs.t)("Swiper Loop Warning: The number of slides is not enough for loop mode, it will be disabled and not function properly. You need to add more slides (or make duplicates) or lower the values of slidesPerView and slidesPerGroup parameters");
-    else if (gridEnabled && params.grid.fill === "row") (0, _utilsMjs.t)("Swiper Loop Warning: Loop mode is not compatible with grid.fill = `row`");
+    if (slides.length < slidesPerView + loopedSlides) (0, _utilsMjs.u)("Swiper Loop Warning: The number of slides is not enough for loop mode, it will be disabled and not function properly. You need to add more slides (or make duplicates) or lower the values of slidesPerView and slidesPerGroup parameters");
+    else if (gridEnabled && params.grid.fill === "row") (0, _utilsMjs.u)("Swiper Loop Warning: Loop mode is not compatible with grid.fill = `row`");
     const prependSlidesIndexes = [];
     const appendSlidesIndexes = [];
     let activeIndex = swiper.activeIndex;
@@ -7343,7 +7347,7 @@ function onTouchStart(event) {
     if (!swiper.animating && params.cssMode && params.loop) swiper.loopFix();
     let targetEl = e.target;
     if (params.touchEventsTarget === "wrapper") {
-        if (!swiper.wrapperEl.contains(targetEl)) return;
+        if (!(0, _utilsMjs.v)(targetEl, swiper.wrapperEl)) return;
     }
     if ("which" in e && e.which === 3) return;
     if ("button" in e && e.button > 0) return;
@@ -7544,7 +7548,7 @@ function onTouchMove(event) {
     let resistanceRatio = params.resistanceRatio;
     if (params.touchReleaseOnEdges) resistanceRatio = 0;
     if (diff > 0) {
-        if (isLoop && allowLoopFix && !loopFixed && data.allowThresholdMove && data.currentTranslate > (params.centeredSlides ? swiper.minTranslate() - swiper.slidesSizesGrid[swiper.activeIndex + 1] : swiper.minTranslate())) swiper.loopFix({
+        if (isLoop && allowLoopFix && !loopFixed && data.allowThresholdMove && data.currentTranslate > (params.centeredSlides ? swiper.minTranslate() - swiper.slidesSizesGrid[swiper.activeIndex + 1] - (params.slidesPerView !== "auto" && swiper.slides.length - params.slidesPerView >= 2 ? swiper.slidesSizesGrid[swiper.activeIndex + 1] + swiper.params.spaceBetween : 0) - swiper.params.spaceBetween : swiper.minTranslate())) swiper.loopFix({
             direction: "prev",
             setTranslate: true,
             activeSlideIndex: 0
@@ -7554,7 +7558,7 @@ function onTouchMove(event) {
             if (params.resistance) data.currentTranslate = swiper.minTranslate() - 1 + (-swiper.minTranslate() + data.startTranslate + diff) ** resistanceRatio;
         }
     } else if (diff < 0) {
-        if (isLoop && allowLoopFix && !loopFixed && data.allowThresholdMove && data.currentTranslate < (params.centeredSlides ? swiper.maxTranslate() + swiper.slidesSizesGrid[swiper.slidesSizesGrid.length - 1] : swiper.maxTranslate())) swiper.loopFix({
+        if (isLoop && allowLoopFix && !loopFixed && data.allowThresholdMove && data.currentTranslate < (params.centeredSlides ? swiper.maxTranslate() + swiper.slidesSizesGrid[swiper.slidesSizesGrid.length - 1] + swiper.params.spaceBetween + (params.slidesPerView !== "auto" && swiper.slides.length - params.slidesPerView >= 2 ? swiper.slidesSizesGrid[swiper.slidesSizesGrid.length - 1] + swiper.params.spaceBetween : 0) : swiper.maxTranslate())) swiper.loopFix({
             direction: "next",
             setTranslate: true,
             activeSlideIndex: swiper.slides.length - (params.slidesPerView === "auto" ? swiper.slidesPerViewDynamic() : Math.ceil(parseFloat(params.slidesPerView, 10)))
@@ -7921,7 +7925,7 @@ function setBreakpoint() {
     const needsReLoop = params.loop && (breakpointParams.slidesPerView !== params.slidesPerView || directionChanged);
     const wasLoop = params.loop;
     if (directionChanged && initialized) swiper.changeDirection();
-    (0, _utilsMjs.u)(swiper.params, breakpointParams);
+    (0, _utilsMjs.w)(swiper.params, breakpointParams);
     const isEnabled = swiper.params.enabled;
     const hasLoop = swiper.params.loop;
     Object.assign(swiper, {
@@ -8185,7 +8189,7 @@ function moduleExtendParams(params, allModulesParams) {
         const moduleParamName = Object.keys(obj)[0];
         const moduleParams = obj[moduleParamName];
         if (typeof moduleParams !== "object" || moduleParams === null) {
-            (0, _utilsMjs.u)(allModulesParams, obj);
+            (0, _utilsMjs.w)(allModulesParams, obj);
             return;
         }
         if (params[moduleParamName] === true) params[moduleParamName] = {
@@ -8197,14 +8201,14 @@ function moduleExtendParams(params, allModulesParams) {
             "scrollbar"
         ].indexOf(moduleParamName) >= 0 && params[moduleParamName] && params[moduleParamName].enabled && !params[moduleParamName].el) params[moduleParamName].auto = true;
         if (!(moduleParamName in params && "enabled" in moduleParams)) {
-            (0, _utilsMjs.u)(allModulesParams, obj);
+            (0, _utilsMjs.w)(allModulesParams, obj);
             return;
         }
         if (typeof params[moduleParamName] === "object" && !("enabled" in params[moduleParamName])) params[moduleParamName].enabled = true;
         if (!params[moduleParamName]) params[moduleParamName] = {
             enabled: false
         };
-        (0, _utilsMjs.u)(allModulesParams, obj);
+        (0, _utilsMjs.w)(allModulesParams, obj);
     };
 }
 /* eslint no-param-reassign: "off" */ const prototypes = {
@@ -8229,13 +8233,13 @@ class Swiper {
         if (args.length === 1 && args[0].constructor && Object.prototype.toString.call(args[0]).slice(8, -1) === "Object") params = args[0];
         else [el, params] = args;
         if (!params) params = {};
-        params = (0, _utilsMjs.u)({}, params);
+        params = (0, _utilsMjs.w)({}, params);
         if (el && !params.el) params.el = el;
         const document1 = (0, _ssrWindowEsmMjs.g)();
         if (params.el && typeof params.el === "string" && document1.querySelectorAll(params.el).length > 1) {
             const swipers = [];
             document1.querySelectorAll(params.el).forEach((containerEl)=>{
-                const newParams = (0, _utilsMjs.u)({}, params, {
+                const newParams = (0, _utilsMjs.w)({}, params, {
                     el: containerEl
                 });
                 swipers.push(new Swiper(newParams));
@@ -8270,11 +8274,11 @@ class Swiper {
             });
         });
         // Extend defaults with modules params
-        const swiperParams = (0, _utilsMjs.u)({}, defaults, allModulesParams);
+        const swiperParams = (0, _utilsMjs.w)({}, defaults, allModulesParams);
         // Extend defaults with passed params
-        swiper.params = (0, _utilsMjs.u)({}, swiperParams, extendedDefaults, params);
-        swiper.originalParams = (0, _utilsMjs.u)({}, swiper.params);
-        swiper.passedParams = (0, _utilsMjs.u)({}, params);
+        swiper.params = (0, _utilsMjs.w)({}, swiperParams, extendedDefaults, params);
+        swiper.originalParams = (0, _utilsMjs.w)({}, swiper.params);
+        swiper.passedParams = (0, _utilsMjs.w)({}, params);
         // add event listeners
         if (swiper.params && swiper.params.on) Object.keys(swiper.params.on).forEach((eventName)=>{
             swiper.on(eventName, swiper.params.on[eventName]);
@@ -8582,9 +8586,9 @@ class Swiper {
             hostEl: swiper.isElement ? el.parentNode.host : el,
             mounted: true,
             // RTL
-            rtl: el.dir.toLowerCase() === "rtl" || (0, _utilsMjs.o)(el, "direction") === "rtl",
-            rtlTranslate: swiper.params.direction === "horizontal" && (el.dir.toLowerCase() === "rtl" || (0, _utilsMjs.o)(el, "direction") === "rtl"),
-            wrongRTL: (0, _utilsMjs.o)(wrapperEl, "display") === "-webkit-box"
+            rtl: el.dir.toLowerCase() === "rtl" || (0, _utilsMjs.p)(el, "direction") === "rtl",
+            rtlTranslate: swiper.params.direction === "horizontal" && (el.dir.toLowerCase() === "rtl" || (0, _utilsMjs.p)(el, "direction") === "rtl"),
+            wrongRTL: (0, _utilsMjs.p)(wrapperEl, "display") === "-webkit-box"
         });
         return true;
     }
@@ -8662,13 +8666,13 @@ class Swiper {
         });
         if (deleteInstance !== false) {
             if (swiper.el && typeof swiper.el !== "string") swiper.el.swiper = null;
-            (0, _utilsMjs.v)(swiper);
+            (0, _utilsMjs.x)(swiper);
         }
         swiper.destroyed = true;
         return null;
     }
     static extendDefaults(newDefaults) {
-        (0, _utilsMjs.u)(extendedDefaults, newDefaults);
+        (0, _utilsMjs.w)(extendedDefaults, newDefaults);
     }
     static get extendedDefaults() {
         return extendedDefaults;
@@ -8857,14 +8861,16 @@ parcelHelpers.export(exports, "k", ()=>elementTransitionEnd);
 parcelHelpers.export(exports, "l", ()=>isObject);
 parcelHelpers.export(exports, "m", ()=>makeElementsArray);
 parcelHelpers.export(exports, "n", ()=>nextTick);
-parcelHelpers.export(exports, "o", ()=>elementStyle);
-parcelHelpers.export(exports, "p", ()=>elementNextAll);
-parcelHelpers.export(exports, "q", ()=>elementPrevAll);
-parcelHelpers.export(exports, "r", ()=>animateCSSModeScroll);
+parcelHelpers.export(exports, "o", ()=>getRotateFix);
+parcelHelpers.export(exports, "p", ()=>elementStyle);
+parcelHelpers.export(exports, "q", ()=>elementNextAll);
+parcelHelpers.export(exports, "r", ()=>elementPrevAll);
 parcelHelpers.export(exports, "s", ()=>setCSSProperty);
-parcelHelpers.export(exports, "t", ()=>showWarning);
-parcelHelpers.export(exports, "u", ()=>extend);
-parcelHelpers.export(exports, "v", ()=>deleteProps);
+parcelHelpers.export(exports, "t", ()=>animateCSSModeScroll);
+parcelHelpers.export(exports, "u", ()=>showWarning);
+parcelHelpers.export(exports, "v", ()=>elementIsChildOf);
+parcelHelpers.export(exports, "w", ()=>extend);
+parcelHelpers.export(exports, "x", ()=>deleteProps);
 var _ssrWindowEsmMjs = require("./ssr-window.esm.mjs");
 function classesToTokens(classes) {
     if (classes === void 0) classes = "";
@@ -9015,9 +9021,22 @@ function getSlideTransformEl(slideEl) {
 }
 function elementChildren(element, selector) {
     if (selector === void 0) selector = "";
-    return [
+    const children = [
         ...element.children
-    ].filter((el)=>el.matches(selector));
+    ];
+    if (element instanceof HTMLSlotElement) children.push(...element.assignedElements());
+    if (!selector) return children;
+    return children.filter((el)=>el.matches(selector));
+}
+function elementIsChildOf(el, parent) {
+    const isChild = parent.contains(el);
+    if (!isChild && parent instanceof HTMLSlotElement) {
+        const children = [
+            ...parent.assignedElements()
+        ];
+        return children.includes(el);
+    }
+    return isChild;
 }
 function showWarning(text) {
     try {
@@ -9113,239 +9132,14 @@ function makeElementsArray(el) {
         el
     ]).filter((e)=>!!e);
 }
+function getRotateFix(swiper) {
+    return (v)=>{
+        if (Math.abs(v) > 0 && swiper.browser && swiper.browser.need3dFix && Math.abs(v) % 90 === 0) return v + 0.001;
+        return v;
+    };
+}
 
-},{"./ssr-window.esm.mjs":"th8PY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"htWnw":[function(require,module,exports) {
-/*!
- * DrawSVGPlugin 3.12.5
- * https://gsap.com
- *
- * @license Copyright 2008-2024, GreenSock. All rights reserved.
- * Subject to the terms at https://gsap.com/standard-license or for
- * Club GSAP members, the agreement issued with that membership.
- * @author: Jack Doyle, jack@greensock.com
-*/ /* eslint-disable */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "DrawSVGPlugin", ()=>DrawSVGPlugin);
-parcelHelpers.export(exports, "default", ()=>DrawSVGPlugin);
-var gsap, _toArray, _doc, _win, _isEdge, _coreInitted, _warned, _getStyleSaver, _reverting, _windowExists = function _windowExists() {
-    return typeof window !== "undefined";
-}, _getGSAP = function _getGSAP() {
-    return gsap || _windowExists() && (gsap = window.gsap) && gsap.registerPlugin && gsap;
-}, _numExp = /[-+=\.]*\d+[\.e\-\+]*\d*[e\-\+]*\d*/gi, //finds any numbers, including ones that start with += or -=, negative numbers, and ones in scientific notation like 1e-8.
-_types = {
-    rect: [
-        "width",
-        "height"
-    ],
-    circle: [
-        "r",
-        "r"
-    ],
-    ellipse: [
-        "rx",
-        "ry"
-    ],
-    line: [
-        "x2",
-        "y2"
-    ]
-}, _round = function _round(value) {
-    return Math.round(value * 10000) / 10000;
-}, _parseNum = function _parseNum(value) {
-    return parseFloat(value) || 0;
-}, _parseSingleVal = function _parseSingleVal(value, length) {
-    var num = _parseNum(value);
-    return ~value.indexOf("%") ? num / 100 * length : num;
-}, _getAttributeAsNumber = function _getAttributeAsNumber(target, attr) {
-    return _parseNum(target.getAttribute(attr));
-}, _sqrt = Math.sqrt, _getDistance = function _getDistance(x1, y1, x2, y2, scaleX, scaleY) {
-    return _sqrt(Math.pow((_parseNum(x2) - _parseNum(x1)) * scaleX, 2) + Math.pow((_parseNum(y2) - _parseNum(y1)) * scaleY, 2));
-}, _warn = function _warn(message) {
-    return console.warn(message);
-}, _hasNonScalingStroke = function _hasNonScalingStroke(target) {
-    return target.getAttribute("vector-effect") === "non-scaling-stroke";
-}, _bonusValidated = 1, //<name>DrawSVGPlugin</name>
-//accepts values like "100%" or "20% 80%" or "20 50" and parses it into an absolute start and end position on the line/stroke based on its length. Returns an an array with the start and end values, like [0, 243]
-_parse = function _parse(value, length, defaultStart) {
-    var i = value.indexOf(" "), s, e;
-    if (i < 0) {
-        s = defaultStart !== undefined ? defaultStart + "" : value;
-        e = value;
-    } else {
-        s = value.substr(0, i);
-        e = value.substr(i + 1);
-    }
-    s = _parseSingleVal(s, length);
-    e = _parseSingleVal(e, length);
-    return s > e ? [
-        e,
-        s
-    ] : [
-        s,
-        e
-    ];
-}, _getLength = function _getLength(target) {
-    target = _toArray(target)[0];
-    if (!target) return 0;
-    var type = target.tagName.toLowerCase(), style = target.style, scaleX = 1, scaleY = 1, length, bbox, points, prevPoint, i, rx, ry;
-    if (_hasNonScalingStroke(target)) {
-        //non-scaling-stroke basically scales the shape and then strokes it at the screen-level (after transforms), thus we need to adjust the length accordingly.
-        scaleY = target.getScreenCTM();
-        scaleX = _sqrt(scaleY.a * scaleY.a + scaleY.b * scaleY.b);
-        scaleY = _sqrt(scaleY.d * scaleY.d + scaleY.c * scaleY.c);
-    }
-    try {
-        //IE bug: calling <path>.getTotalLength() locks the repaint area of the stroke to whatever its current dimensions are on that frame/tick. To work around that, we must call getBBox() to force IE to recalculate things.
-        bbox = target.getBBox(); //solely for fixing bug in IE - we don't actually use the bbox.
-    } catch (e) {
-        //firefox has a bug that throws an error if the element isn't visible.
-        _warn("Some browsers won't measure invisible elements (like display:none or masks inside defs).");
-    }
-    var _ref = bbox || {
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0
-    }, x = _ref.x, y = _ref.y, width = _ref.width, height = _ref.height;
-    if ((!bbox || !width && !height) && _types[type]) {
-        //if the element isn't visible, try to discern width/height using its attributes.
-        width = _getAttributeAsNumber(target, _types[type][0]);
-        height = _getAttributeAsNumber(target, _types[type][1]);
-        if (type !== "rect" && type !== "line") {
-            //double the radius for circles and ellipses
-            width *= 2;
-            height *= 2;
-        }
-        if (type === "line") {
-            x = _getAttributeAsNumber(target, "x1");
-            y = _getAttributeAsNumber(target, "y1");
-            width = Math.abs(width - x);
-            height = Math.abs(height - y);
-        }
-    }
-    if (type === "path") {
-        prevPoint = style.strokeDasharray;
-        style.strokeDasharray = "none";
-        length = target.getTotalLength() || 0;
-        _round(scaleX) !== _round(scaleY) && !_warned && (_warned = 1) && _warn("Warning: <path> length cannot be measured when vector-effect is non-scaling-stroke and the element isn't proportionally scaled.");
-        length *= (scaleX + scaleY) / 2;
-        style.strokeDasharray = prevPoint;
-    } else if (type === "rect") length = width * 2 * scaleX + height * 2 * scaleY;
-    else if (type === "line") length = _getDistance(x, y, x + width, y + height, scaleX, scaleY);
-    else if (type === "polyline" || type === "polygon") {
-        points = target.getAttribute("points").match(_numExp) || [];
-        type === "polygon" && points.push(points[0], points[1]);
-        length = 0;
-        for(i = 2; i < points.length; i += 2)length += _getDistance(points[i - 2], points[i - 1], points[i], points[i + 1], scaleX, scaleY) || 0;
-    } else if (type === "circle" || type === "ellipse") {
-        rx = width / 2 * scaleX;
-        ry = height / 2 * scaleY;
-        length = Math.PI * (3 * (rx + ry) - _sqrt((3 * rx + ry) * (rx + 3 * ry)));
-    }
-    return length || 0;
-}, _getPosition = function _getPosition(target, length) {
-    target = _toArray(target)[0];
-    if (!target) return [
-        0,
-        0
-    ];
-    length || (length = _getLength(target) + 1);
-    var cs = _win.getComputedStyle(target), dash = cs.strokeDasharray || "", offset = _parseNum(cs.strokeDashoffset), i = dash.indexOf(",");
-    i < 0 && (i = dash.indexOf(" "));
-    dash = i < 0 ? length : _parseNum(dash.substr(0, i));
-    dash > length && (dash = length);
-    return [
-        -offset || 0,
-        dash - offset || 0
-    ];
-}, _initCore = function _initCore() {
-    if (_windowExists()) {
-        _doc = document;
-        _win = window;
-        _coreInitted = gsap = _getGSAP();
-        _toArray = gsap.utils.toArray;
-        _getStyleSaver = gsap.core.getStyleSaver;
-        _reverting = gsap.core.reverting || function() {};
-        _isEdge = ((_win.navigator || {}).userAgent || "").indexOf("Edge") !== -1; //Microsoft Edge has a bug that causes it not to redraw the path correctly if the stroke-linecap is anything other than "butt" (like "round") and it doesn't match the stroke-linejoin. A way to trigger it is to change the stroke-miterlimit, so we'll only do that if/when we have to (to maximize performance)
-    }
-};
-var DrawSVGPlugin = {
-    version: "3.12.5",
-    name: "drawSVG",
-    register: function register(core) {
-        gsap = core;
-        _initCore();
-    },
-    init: function init(target, value, tween, index, targets) {
-        if (!target.getBBox) return false;
-        _coreInitted || _initCore();
-        var length = _getLength(target), start, end, cs;
-        this.styles = _getStyleSaver && _getStyleSaver(target, "strokeDashoffset,strokeDasharray,strokeMiterlimit");
-        this.tween = tween;
-        this._style = target.style;
-        this._target = target;
-        if (value + "" === "true") value = "0 100%";
-        else if (!value) value = "0 0";
-        else if ((value + "").indexOf(" ") === -1) value = "0 " + value;
-        start = _getPosition(target, length);
-        end = _parse(value, length, start[0]);
-        this._length = _round(length);
-        this._dash = _round(start[1] - start[0]); //some browsers render artifacts if dash is 0, so we use a very small number in that case.
-        this._offset = _round(-start[0]);
-        this._dashPT = this.add(this, "_dash", this._dash, _round(end[1] - end[0]), 0, 0, 0, 0, 0, 1);
-        this._offsetPT = this.add(this, "_offset", this._offset, _round(-end[0]), 0, 0, 0, 0, 0, 1);
-        if (_isEdge) {
-            //to work around a bug in Microsoft Edge, animate the stroke-miterlimit by 0.0001 just to trigger the repaint (unnecessary if it's "round" and stroke-linejoin is also "round"). Imperceptible, relatively high-performance, and effective. Another option was to set the "d" <path> attribute to its current value on every tick, but that seems like it'd be much less performant.
-            cs = _win.getComputedStyle(target);
-            if (cs.strokeLinecap !== cs.strokeLinejoin) {
-                end = _parseNum(cs.strokeMiterlimit);
-                this.add(target.style, "strokeMiterlimit", end, end + 0.01);
-            }
-        }
-        this._live = _hasNonScalingStroke(target) || ~(value + "").indexOf("live");
-        this._nowrap = ~(value + "").indexOf("nowrap");
-        this._props.push("drawSVG");
-        return _bonusValidated;
-    },
-    render: function render(ratio, data) {
-        if (data.tween._time || !_reverting()) {
-            var pt = data._pt, style = data._style, length, lengthRatio, dash, offset;
-            if (pt) {
-                //when the element has vector-effect="non-scaling-stroke" and the SVG is resized (like on a window resize), it actually changes the length of the stroke! So we must sense that and make the proper adjustments.
-                if (data._live) {
-                    length = _getLength(data._target);
-                    if (length !== data._length) {
-                        lengthRatio = length / data._length;
-                        data._length = length;
-                        if (data._offsetPT) {
-                            data._offsetPT.s *= lengthRatio;
-                            data._offsetPT.c *= lengthRatio;
-                        }
-                        if (data._dashPT) {
-                            data._dashPT.s *= lengthRatio;
-                            data._dashPT.c *= lengthRatio;
-                        } else data._dash *= lengthRatio;
-                    }
-                }
-                while(pt){
-                    pt.r(ratio, pt.d);
-                    pt = pt._next;
-                }
-                dash = data._dash || ratio && ratio !== 1 && 0.0001 || 0; // only let it be zero if it's at the start or end of the tween.
-                length = data._length - dash + 0.1;
-                offset = data._offset;
-                dash && offset && dash + Math.abs(offset % data._length) > data._length - 0.2 && (offset += offset < 0 ? 0.1 : -0.1) && (length += 0.1);
-                style.strokeDashoffset = dash ? offset : offset + 0.001;
-                style.strokeDasharray = length < 0.2 ? "none" : dash ? dash + "px," + (data._nowrap ? 999999 : length) + "px" : "0px, 999999px";
-            }
-        } else data.styles.revert();
-    },
-    getLength: _getLength,
-    getPosition: _getPosition
-};
-_getGSAP() && gsap.registerPlugin(DrawSVGPlugin);
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7wnFk":[function(require,module,exports) {
+},{"./ssr-window.esm.mjs":"th8PY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7wnFk":[function(require,module,exports) {
 /*!
  * ScrollTrigger 3.12.5
  * https://gsap.com
@@ -11568,6 +11362,237 @@ Observer.getById = function(id) {
     })[0];
 };
 _getGSAP() && gsap.registerPlugin(Observer);
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"htWnw":[function(require,module,exports) {
+/*!
+ * DrawSVGPlugin 3.12.5
+ * https://gsap.com
+ *
+ * @license Copyright 2008-2024, GreenSock. All rights reserved.
+ * Subject to the terms at https://gsap.com/standard-license or for
+ * Club GSAP members, the agreement issued with that membership.
+ * @author: Jack Doyle, jack@greensock.com
+*/ /* eslint-disable */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "DrawSVGPlugin", ()=>DrawSVGPlugin);
+parcelHelpers.export(exports, "default", ()=>DrawSVGPlugin);
+var gsap, _toArray, _doc, _win, _isEdge, _coreInitted, _warned, _getStyleSaver, _reverting, _windowExists = function _windowExists() {
+    return typeof window !== "undefined";
+}, _getGSAP = function _getGSAP() {
+    return gsap || _windowExists() && (gsap = window.gsap) && gsap.registerPlugin && gsap;
+}, _numExp = /[-+=\.]*\d+[\.e\-\+]*\d*[e\-\+]*\d*/gi, //finds any numbers, including ones that start with += or -=, negative numbers, and ones in scientific notation like 1e-8.
+_types = {
+    rect: [
+        "width",
+        "height"
+    ],
+    circle: [
+        "r",
+        "r"
+    ],
+    ellipse: [
+        "rx",
+        "ry"
+    ],
+    line: [
+        "x2",
+        "y2"
+    ]
+}, _round = function _round(value) {
+    return Math.round(value * 10000) / 10000;
+}, _parseNum = function _parseNum(value) {
+    return parseFloat(value) || 0;
+}, _parseSingleVal = function _parseSingleVal(value, length) {
+    var num = _parseNum(value);
+    return ~value.indexOf("%") ? num / 100 * length : num;
+}, _getAttributeAsNumber = function _getAttributeAsNumber(target, attr) {
+    return _parseNum(target.getAttribute(attr));
+}, _sqrt = Math.sqrt, _getDistance = function _getDistance(x1, y1, x2, y2, scaleX, scaleY) {
+    return _sqrt(Math.pow((_parseNum(x2) - _parseNum(x1)) * scaleX, 2) + Math.pow((_parseNum(y2) - _parseNum(y1)) * scaleY, 2));
+}, _warn = function _warn(message) {
+    return console.warn(message);
+}, _hasNonScalingStroke = function _hasNonScalingStroke(target) {
+    return target.getAttribute("vector-effect") === "non-scaling-stroke";
+}, _bonusValidated = 1, //<name>DrawSVGPlugin</name>
+//accepts values like "100%" or "20% 80%" or "20 50" and parses it into an absolute start and end position on the line/stroke based on its length. Returns an an array with the start and end values, like [0, 243]
+_parse = function _parse(value, length, defaultStart) {
+    var i = value.indexOf(" "), s, e;
+    if (i < 0) {
+        s = defaultStart !== undefined ? defaultStart + "" : value;
+        e = value;
+    } else {
+        s = value.substr(0, i);
+        e = value.substr(i + 1);
+    }
+    s = _parseSingleVal(s, length);
+    e = _parseSingleVal(e, length);
+    return s > e ? [
+        e,
+        s
+    ] : [
+        s,
+        e
+    ];
+}, _getLength = function _getLength(target) {
+    target = _toArray(target)[0];
+    if (!target) return 0;
+    var type = target.tagName.toLowerCase(), style = target.style, scaleX = 1, scaleY = 1, length, bbox, points, prevPoint, i, rx, ry;
+    if (_hasNonScalingStroke(target)) {
+        //non-scaling-stroke basically scales the shape and then strokes it at the screen-level (after transforms), thus we need to adjust the length accordingly.
+        scaleY = target.getScreenCTM();
+        scaleX = _sqrt(scaleY.a * scaleY.a + scaleY.b * scaleY.b);
+        scaleY = _sqrt(scaleY.d * scaleY.d + scaleY.c * scaleY.c);
+    }
+    try {
+        //IE bug: calling <path>.getTotalLength() locks the repaint area of the stroke to whatever its current dimensions are on that frame/tick. To work around that, we must call getBBox() to force IE to recalculate things.
+        bbox = target.getBBox(); //solely for fixing bug in IE - we don't actually use the bbox.
+    } catch (e) {
+        //firefox has a bug that throws an error if the element isn't visible.
+        _warn("Some browsers won't measure invisible elements (like display:none or masks inside defs).");
+    }
+    var _ref = bbox || {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0
+    }, x = _ref.x, y = _ref.y, width = _ref.width, height = _ref.height;
+    if ((!bbox || !width && !height) && _types[type]) {
+        //if the element isn't visible, try to discern width/height using its attributes.
+        width = _getAttributeAsNumber(target, _types[type][0]);
+        height = _getAttributeAsNumber(target, _types[type][1]);
+        if (type !== "rect" && type !== "line") {
+            //double the radius for circles and ellipses
+            width *= 2;
+            height *= 2;
+        }
+        if (type === "line") {
+            x = _getAttributeAsNumber(target, "x1");
+            y = _getAttributeAsNumber(target, "y1");
+            width = Math.abs(width - x);
+            height = Math.abs(height - y);
+        }
+    }
+    if (type === "path") {
+        prevPoint = style.strokeDasharray;
+        style.strokeDasharray = "none";
+        length = target.getTotalLength() || 0;
+        _round(scaleX) !== _round(scaleY) && !_warned && (_warned = 1) && _warn("Warning: <path> length cannot be measured when vector-effect is non-scaling-stroke and the element isn't proportionally scaled.");
+        length *= (scaleX + scaleY) / 2;
+        style.strokeDasharray = prevPoint;
+    } else if (type === "rect") length = width * 2 * scaleX + height * 2 * scaleY;
+    else if (type === "line") length = _getDistance(x, y, x + width, y + height, scaleX, scaleY);
+    else if (type === "polyline" || type === "polygon") {
+        points = target.getAttribute("points").match(_numExp) || [];
+        type === "polygon" && points.push(points[0], points[1]);
+        length = 0;
+        for(i = 2; i < points.length; i += 2)length += _getDistance(points[i - 2], points[i - 1], points[i], points[i + 1], scaleX, scaleY) || 0;
+    } else if (type === "circle" || type === "ellipse") {
+        rx = width / 2 * scaleX;
+        ry = height / 2 * scaleY;
+        length = Math.PI * (3 * (rx + ry) - _sqrt((3 * rx + ry) * (rx + 3 * ry)));
+    }
+    return length || 0;
+}, _getPosition = function _getPosition(target, length) {
+    target = _toArray(target)[0];
+    if (!target) return [
+        0,
+        0
+    ];
+    length || (length = _getLength(target) + 1);
+    var cs = _win.getComputedStyle(target), dash = cs.strokeDasharray || "", offset = _parseNum(cs.strokeDashoffset), i = dash.indexOf(",");
+    i < 0 && (i = dash.indexOf(" "));
+    dash = i < 0 ? length : _parseNum(dash.substr(0, i));
+    dash > length && (dash = length);
+    return [
+        -offset || 0,
+        dash - offset || 0
+    ];
+}, _initCore = function _initCore() {
+    if (_windowExists()) {
+        _doc = document;
+        _win = window;
+        _coreInitted = gsap = _getGSAP();
+        _toArray = gsap.utils.toArray;
+        _getStyleSaver = gsap.core.getStyleSaver;
+        _reverting = gsap.core.reverting || function() {};
+        _isEdge = ((_win.navigator || {}).userAgent || "").indexOf("Edge") !== -1; //Microsoft Edge has a bug that causes it not to redraw the path correctly if the stroke-linecap is anything other than "butt" (like "round") and it doesn't match the stroke-linejoin. A way to trigger it is to change the stroke-miterlimit, so we'll only do that if/when we have to (to maximize performance)
+    }
+};
+var DrawSVGPlugin = {
+    version: "3.12.5",
+    name: "drawSVG",
+    register: function register(core) {
+        gsap = core;
+        _initCore();
+    },
+    init: function init(target, value, tween, index, targets) {
+        if (!target.getBBox) return false;
+        _coreInitted || _initCore();
+        var length = _getLength(target), start, end, cs;
+        this.styles = _getStyleSaver && _getStyleSaver(target, "strokeDashoffset,strokeDasharray,strokeMiterlimit");
+        this.tween = tween;
+        this._style = target.style;
+        this._target = target;
+        if (value + "" === "true") value = "0 100%";
+        else if (!value) value = "0 0";
+        else if ((value + "").indexOf(" ") === -1) value = "0 " + value;
+        start = _getPosition(target, length);
+        end = _parse(value, length, start[0]);
+        this._length = _round(length);
+        this._dash = _round(start[1] - start[0]); //some browsers render artifacts if dash is 0, so we use a very small number in that case.
+        this._offset = _round(-start[0]);
+        this._dashPT = this.add(this, "_dash", this._dash, _round(end[1] - end[0]), 0, 0, 0, 0, 0, 1);
+        this._offsetPT = this.add(this, "_offset", this._offset, _round(-end[0]), 0, 0, 0, 0, 0, 1);
+        if (_isEdge) {
+            //to work around a bug in Microsoft Edge, animate the stroke-miterlimit by 0.0001 just to trigger the repaint (unnecessary if it's "round" and stroke-linejoin is also "round"). Imperceptible, relatively high-performance, and effective. Another option was to set the "d" <path> attribute to its current value on every tick, but that seems like it'd be much less performant.
+            cs = _win.getComputedStyle(target);
+            if (cs.strokeLinecap !== cs.strokeLinejoin) {
+                end = _parseNum(cs.strokeMiterlimit);
+                this.add(target.style, "strokeMiterlimit", end, end + 0.01);
+            }
+        }
+        this._live = _hasNonScalingStroke(target) || ~(value + "").indexOf("live");
+        this._nowrap = ~(value + "").indexOf("nowrap");
+        this._props.push("drawSVG");
+        return _bonusValidated;
+    },
+    render: function render(ratio, data) {
+        if (data.tween._time || !_reverting()) {
+            var pt = data._pt, style = data._style, length, lengthRatio, dash, offset;
+            if (pt) {
+                //when the element has vector-effect="non-scaling-stroke" and the SVG is resized (like on a window resize), it actually changes the length of the stroke! So we must sense that and make the proper adjustments.
+                if (data._live) {
+                    length = _getLength(data._target);
+                    if (length !== data._length) {
+                        lengthRatio = length / data._length;
+                        data._length = length;
+                        if (data._offsetPT) {
+                            data._offsetPT.s *= lengthRatio;
+                            data._offsetPT.c *= lengthRatio;
+                        }
+                        if (data._dashPT) {
+                            data._dashPT.s *= lengthRatio;
+                            data._dashPT.c *= lengthRatio;
+                        } else data._dash *= lengthRatio;
+                    }
+                }
+                while(pt){
+                    pt.r(ratio, pt.d);
+                    pt = pt._next;
+                }
+                dash = data._dash || ratio && ratio !== 1 && 0.0001 || 0; // only let it be zero if it's at the start or end of the tween.
+                length = data._length - dash + 0.1;
+                offset = data._offset;
+                dash && offset && dash + Math.abs(offset % data._length) > data._length - 0.2 && (offset += offset < 0 ? 0.1 : -0.1) && (length += 0.1);
+                style.strokeDashoffset = dash ? offset : offset + 0.001;
+                style.strokeDasharray = length < 0.2 ? "none" : dash ? dash + "px," + (data._nowrap ? 999999 : length) + "px" : "0px, 999999px";
+            }
+        } else data.styles.revert();
+    },
+    getLength: _getLength,
+    getPosition: _getPosition
+};
+_getGSAP() && gsap.registerPlugin(DrawSVGPlugin);
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3eezk":[function(require,module,exports) {
 /*!

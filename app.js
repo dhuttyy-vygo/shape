@@ -1,5 +1,5 @@
 import gsap from "gsap";
-import Swiper from "swiper";
+import {Swiper} from "swiper";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import DrawSVGPlugin from "gsap/DrawSVGPlugin";
 import MorphSVGPlugin from "gsap/MorphSVGPlugin";
@@ -65,7 +65,7 @@ runSplit();
           end: "bottom bottom",
           renderer: "svg",
           target: ".picto-lottie",
-          path: "https://uploads-ssl.webflow.com/6687cdef47183ee9c31a61bf/66bcd1942d16184e581cacc2_12.json", // to change and duplicate WIP // 
+          path: "https://uploads-ssl.webflow.com/6687cdef47183ee9c31a61bf/66bcd1942d16184e581cacc2_12.json",  
           scrub: 2,
         });
   }
@@ -535,15 +535,15 @@ var vimeoModal = () => {
   
 var reelerX = function () {
 
-  const marquee = document.querySelectorAll(".gl-marquee");
+  const marquee = document.querySelectorAll(".u-swipe");
   if (!marquee) {
       console.log("No marquee not found on the page");
       return;
     }
 
       marquee.forEach((e) => {
-      const items = e.querySelector(".gl-marquee-items"),
-          item = e.querySelectorAll(".gl-marquee-item");
+      const items = e.querySelector(".u-swipe-items"),
+          item = e.querySelectorAll(".u-swipe-item");
 
       e.classList.add("swiper-container");
       items.classList.add("swiper-wrapper");
@@ -552,19 +552,24 @@ var reelerX = function () {
       const slider = new Swiper(e, {
           slidesPerView: "auto",
           loop: false,
+          slidesPerView: 1,
+          slidesPerGroup: 1,
+          speed: 300,
+          spaceBetween: 50,
           // Adding navigation options
-          navigation: {
-          nextEl: ".gl-swipe-button.next", 
-          prevEl: ".gl-swipe-button.back", 
+          // navigation: {
+          // nextEl: ".gl-swipe-button.next", // Specify the class for the next button
+          // prevEl: ".gl-swipe-button.back", // Specify the class for the previous button
+          // },
+          breakpoints: {
+          991: {
+              slidesPerView: "auto",
+          },
           },
       });
       });
 
       const fleet = document.querySelectorAll(".gl-fleet");
-      if (!fleet) {
-        console.log("No marquee not found on the page");
-        return;
-      }
 
       fleet.forEach((e) => {
       const items = e.querySelector(".gl-fleet-items"),
@@ -587,8 +592,8 @@ var reelerX = function () {
           },
           // Adding navigation options
           navigation: {
-          nextEl: ".gl-fleet-back", 
-          prevEl: ".gl-fleet-next", 
+          nextEl: ".gl-fleet-button.next", // Specify the class for the next button
+          prevEl: ".gl-fleet-button.back", // Specify the class for the previous button
           },
           breakpoints: {
           150: {
@@ -601,7 +606,7 @@ var reelerX = function () {
           },
           },
       });
-    });
+   });
 
 };
   
@@ -941,21 +946,12 @@ const tl = Qe.timeline({
 tl.fromTo(t, { yPercent: -10 }, { yPercent: 10, scale: 1.05, ease: "none" });
 });
 
-// stagger in mutliple cards / blocks //
-
-      
-      
       
 });
 
 
-// end of dom contentLoaded //
 
 window.addEventListener("pagehide", function () {
 window.scrollTo(0, 0);
 });
 })();
-
-
-
-
