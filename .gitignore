@@ -1,4 +1,5 @@
 .parcel-cache/
+.parcel-cache 2/
 # Ignore macOS system files
 .DS_Store
 

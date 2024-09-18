@@ -179,4 +179,16 @@ h1, h2, h3, h4, h5, p, a {
 .u-btn-text a:hover:before {
   transform: scaleX(1);
 }
+
+.splide__pagination__page.is-active {
+  background: #23d7ff;
+}
+
+.splide {
+  padding-bottom: 3rem;
+}
+
+.splide__track {
+  overflow: visible;
+}
 /*# sourceMappingURL=app.css.map */

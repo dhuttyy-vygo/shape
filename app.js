@@ -1,5 +1,5 @@
 import gsap from "gsap";
-import {Swiper} from "swiper";
+import { Splide } from "@splidejs/splide";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import DrawSVGPlugin from "gsap/DrawSVGPlugin";
 import MorphSVGPlugin from "gsap/MorphSVGPlugin";
@@ -378,41 +378,33 @@ bindToggle();
 };
 
 
-var reelerX = function () {
 
 
+var splideInit = () => {
+  const els = document.querySelectorAll(".splide");
+  
+  if (!els.length) {
+    return;
+  }
 
-      const fleet = document.querySelectorAll(".u-swipe");
-      if (!fleet) {
-        console.log("No marquee not found on the page");
-        return;
-      }
+  els.forEach((t) => {
 
-      fleet.forEach((e) => {
-      const items = e.querySelector(".u-swipe-items"),
-          item = e.querySelectorAll(".u-swipe-item");
-
-      e.classList.add("swiper-container");
-      items.classList.add("swiper-wrapper");
-      item.forEach((e) => e.classList.add("swiper-slide"));
-
-      const slider = new Swiper(e, {
-          
-          
-          slidesPerView: "auto",
-          centeredSlides: true,
-          speed: 300,
-          spaceBetween: 50,
-          autoplay: {
-          delay: 2500,
-          pagination: true,
-          disableOnInteraction: true,
-          },
-      });
-    });
-
-};
-
+    new Splide( t, {
+      start: 0,  
+      perPage: 3,
+      perMove: 1,
+      autoplay: !1,
+      interval: 2500,
+      focus  : 'center',
+      flickPower: 450 ,
+      pagination: true,
+      autoHeight: !0,
+      gap: "3rem",
+      arrows: false,
+      
+    } ).mount();
+  })
+}
   
 var faqAccord = function () {
 let groups = Qe.utils.toArray(".faq-menu");
@@ -494,7 +486,7 @@ return timeline;
   // loaded //
 window.addEventListener("DOMContentLoaded", function () {
 
-navinit(), reelerX(),faqAccord(),  initHeadings(),  initMachineHero(), initMaterialStick(), initStickywipe();
+navinit(), faqAccord(),  initHeadings(),  initMachineHero(), initMaterialStick(), initStickywipe(), splideInit();
 
 
 // end

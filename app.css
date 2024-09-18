@@ -311,3 +311,15 @@ transform-origin: 0 0;
     -o-transform: scaleX(1);
     transform: scaleX(1);
 }
+
+.splide__pagination__page.is-active {
+    background: #23d7ff;
+}
+
+.splide {
+    padding-bottom: 3rem;
+}
+
+.splide__track {
+    overflow: visible;
+}
