@@ -22,14 +22,21 @@ html {
     [data-split="line"],
 [data-card="text"],
 [data-card="box"],
-.h-swap {
+.h-swap, ._0120, [data-title], [init] {
   visibility: hidden;
   opacity: 0;
 }
+/* 
+.w-editor [data-split="line"],
+[data-card="text"],
+[data-card="box"],
+.h-swap, ._0120, [data-title], [init] {
+    visibility: visible !important;
+    opacity: 1;
+} */
 
 
-
-    @media (min-width: 768px) {
+    /* @media (min-width: 768px) {
         html {
             font-size: .975vw;
         }
@@ -47,7 +54,7 @@ html {
         html {
             font-size: 16px;
         }
-      }
+      } */
 
 .sg-menu-logo {
 opacity: 1;
@@ -103,6 +110,15 @@ animation: sg-btn_menu-open-bottom 0.75s;
 top: -3px;
 transform: rotate(-45deg) scaleX(1);
 transition-duration: 0s, 0s;
+}
+
+.btn_main_wrap:hover .btn_main_icon {
+    transform: translateX(.5rem);
+
+}
+
+.sg-menu.-open .sg-menu-toggle {
+    color: black;
 }
 
 @-webkit-keyframes sg-btn_menu-open-top {
