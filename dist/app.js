@@ -1028,16 +1028,23 @@ runSplit();
         els.forEach((t)=>{
             new (0, _splide.Splide)(t, {
                 start: 0,
-                perPage: 3,
                 perMove: 1,
-                autoplay: !1,
-                interval: 2500,
                 focus: "center",
-                flickPower: 450,
+                perPage: 1,
                 pagination: true,
-                autoHeight: !0,
+                autoHeight: true,
                 gap: "3rem",
-                arrows: false
+                arrows: false,
+                type: "slide",
+                drag: true,
+                snap: true,
+                autoWidth: false,
+                breakpoints: {
+                    768: {
+                        perPage: 1,
+                        gap: "2rem"
+                    }
+                }
             }).mount();
         });
     };

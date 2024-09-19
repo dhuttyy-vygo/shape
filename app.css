@@ -36,25 +36,7 @@ html {
 } */
 
 
-    /* @media (min-width: 768px) {
-        html {
-            font-size: .975vw;
-        }
-        
-        
-      }
       
-      @media (min-width: 992px) {
-          html {
-              font-size: 1.075vw;
-          }
-      }
-      
-      @media (min-width: 1650px) {
-        html {
-            font-size: 16px;
-        }
-      } */
 
 .sg-menu-logo {
 opacity: 1;
@@ -323,3 +305,28 @@ transform-origin: 0 0;
 .splide__track {
     overflow: visible;
 }
+
+.splide__slide {
+    width: 40vw !important;
+    flex: 0 0 40vw;
+  }
+
+
+@media screen and (max-width: 991px) {
+    
+    .splide__slide {
+        width: 100% !important;
+        flex: 0 0 100%;
+      }
+    
+}
+
+
+ /* portrait */
+  @media screen and (max-width: 479px) {
+    
+    
+    
+  }
+  
+ 

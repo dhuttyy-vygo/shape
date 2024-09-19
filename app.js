@@ -389,21 +389,27 @@ var splideInit = () => {
 
   els.forEach((t) => {
 
-    new Splide( t, {
-      start: 0,  
-      perPage: 3,
-      perMove: 1,
-      autoplay: !1,
-      interval: 2500,
-      focus  : 'center',
-      flickPower: 450 ,
+    new Splide(t, {
+      start: 0,                
+      perMove: 1, 
+      focus: "center",
+      perPage: 1,
       pagination: true,
-      autoHeight: !0,
-      gap: "3rem",
+      autoHeight: true,
+      gap: '3rem',
       arrows: false,
-      
-    } ).mount();
-  })
+      type: 'slide',
+      drag: true,
+      snap: true,
+      autoWidth: false,
+      breakpoints: {
+        768: { 
+          perPage: 1,
+          gap: '2rem',
+        },
+      },
+    }).mount();
+  });
 }
   
 var faqAccord = function () {
