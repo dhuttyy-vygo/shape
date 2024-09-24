@@ -378,18 +378,16 @@ bindToggle();
 };
 
 
-
-
 var splideInit = () => {
   const els = document.querySelectorAll(".splide");
-  
+
   if (!els.length) {
     return;
   }
 
+  // Loop through each splide instance
   els.forEach((t) => {
-
-    new Splide(t, {
+    const splide = new Splide(t, {
       start: 0,                
       perMove: 1, 
       focus: "center",
@@ -402,6 +400,11 @@ var splideInit = () => {
       drag: true,
       snap: true,
       autoWidth: false,
+      autoplay: false,         // Initially disable autoplay
+      interval: 2000,          // Set autoplay interval (3 seconds)
+      pauseOnHover: true,      // Handle pause on hover
+      pauseOnFocus: true,      // Ensure pause on focus (like keyboard interaction)
+      resetProgress: false,
       breakpoints: {
         768: { 
           perPage: 1,
@@ -409,6 +412,39 @@ var splideInit = () => {
         },
       },
     }).mount();
+
+    // GSAP ScrollTrigger to play the slider when it enters the viewport (play once)
+    ScrollTrigger.create({
+      trigger: t,             // Element to observe (Splide container)
+      start: 'top bottom',       // Start when the top of the slider is 75% from the top of the viewport
+      onEnter: () => {
+        splide.Components.Autoplay.play();  // Start autoplay when entering the viewport
+        ScrollTrigger.getById(t).kill();    // Kill ScrollTrigger to prevent further triggering
+      },
+    });
+
+    // Pause autoplay on user interaction (dragging, clicking, hovering, or touch)
+    const pauseAutoplay = () => {
+      splide.Components.Autoplay.pause(); // Pause autoplay permanently
+    };
+
+    // Attach event listeners to the splide container for user interaction (drag, click, touch)
+    t.addEventListener('click', pauseAutoplay);
+    t.addEventListener('dragstart', pauseAutoplay);
+    t.addEventListener('touchstart', pauseAutoplay);
+
+    // Add event listener for any elements with the data-splide-card attribute
+    const splideCards = t.querySelectorAll("[data-splide-card]");
+    splideCards.forEach(card => {
+      // Pause autoplay when dragging starts on a `data-splide-card`
+      card.addEventListener('dragstart', pauseAutoplay);
+
+      // Pause autoplay when hovering over a `data-splide-card`
+      card.addEventListener('mouseenter', pauseAutoplay);
+
+      // Pause autoplay when touching/pressing a `data-splide-card` on mobile/touch devices
+      card.addEventListener('touchstart', pauseAutoplay);
+    });
   });
 }
   
@@ -538,10 +574,10 @@ document.querySelectorAll('.u-mutli-back-btn').forEach(function(button) {
   });
 });
 
-var slideNumber = document.querySelectorAll('.slider_slide').length; // Total slide count starts from 1
+var slideNumber = document.querySelectorAll('.slider_slide').length; 
 var totalNumberElement = document.querySelector('.total-number');
 if (totalNumberElement) {
-  totalNumberElement.textContent = slideNumber; // Display total number of slides
+  totalNumberElement.textContent = slideNumber; 
 }
 
 function sliderAnimation() {
@@ -557,12 +593,12 @@ function sliderAnimation() {
   
   var firstElement = document.querySelector('.first');
   if (firstElement) {
-      firstElement.textContent = currentSlide - 1; // Adjust index for display purposes, if needed
+      firstElement.textContent = currentSlide - 1;
   }
   
   var secondElement = document.querySelector('.second');
   if (secondElement) {
-      secondElement.textContent = currentSlide; // Display current slide, starting from 1
+      secondElement.textContent = currentSlide; 
   }
   
   var percent = 20 + ((currentSlide - 1) / (slideNumber - 1)) * 80;
