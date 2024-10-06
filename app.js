@@ -379,7 +379,7 @@ bindToggle();
 
 
 var splideInit = () => {
-  const els = document.querySelectorAll(".splide");
+  const els = document.querySelectorAll(".splide-test");
 
   if (!els.length) {
     return;
@@ -445,6 +445,52 @@ var splideInit = () => {
       // Pause autoplay when touching/pressing a `data-splide-card` on mobile/touch devices
       card.addEventListener('touchstart', pauseAutoplay);
     });
+  });
+}
+
+var splideLInit = () => {
+  const els = document.querySelectorAll(".splide-l");
+
+  if (!els.length) {
+    return;
+  }
+
+  // Loop through each splide instance
+  els.forEach((t) => {
+    // Initialize Splide with the desired configuration
+    var splide = new Splide(t, {
+      // start: 0,                
+      // perMove: 1, 
+      focus: "center",
+      // perPage: 1,
+      pagination: false,
+      // autoHeight: true,
+      gap: '3rem',
+      arrows: true,
+      type: 'slide',
+      drag: true,
+      breakpoints: {
+        768: { 
+          // perPage: 1,
+          gap: '2rem',
+        },
+      },
+    });
+
+    // Select the progress bar inside the current Splide instance
+    var bar = t.querySelector('.splide-prog-bar');
+
+    // Updates the bar width whenever the carousel moves:
+    splide.on('mounted move', function () {
+      var end  = splide.Components.Controller.getEnd() + 1;
+      var rate = Math.min((splide.index + 1) / end, 1);
+      if (bar) { // Check if the progress bar exists
+        bar.style.width = String(100 * rate) + '%';
+      }
+    });
+
+    // Mount the Splide instance
+    splide.mount();
   });
 }
   
@@ -528,7 +574,7 @@ return timeline;
   // loaded //
 window.addEventListener("DOMContentLoaded", function () {
 
-navinit(), faqAccord(),  initHeadings(),  initMachineHero(), initMaterialStick(), initStickywipe(), splideInit();
+navinit(), faqAccord(),  initHeadings(),  initMachineHero(), initMaterialStick(), initStickywipe(), splideInit(), splideLInit();
 
 
 // end

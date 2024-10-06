@@ -311,6 +311,9 @@ transform-origin: 0 0;
     flex: 0 0 40vw;
   }
 
+.splide__slide.is-l {
+    width: inherit !important;
+}  
 
 @media screen and (max-width: 991px) {
     
