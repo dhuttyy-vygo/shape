@@ -1058,7 +1058,7 @@ runSplit();
                 start: "top bottom",
                 onEnter: ()=>{
                     splide.Components.Autoplay.play(); // Start autoplay when entering the viewport
-                    (0, _scrollTriggerDefault.default).getById(t).kill(); // Kill ScrollTrigger to prevent further triggering
+                // ScrollTrigger.getById(t).kill();    // Kill ScrollTrigger to prevent further triggering
                 }
             });
             // Pause autoplay on user interaction (dragging, clicking, hovering, or touch)
@@ -1114,6 +1114,40 @@ runSplit();
                 if (bar) bar.style.width = String(100 * rate) + "%";
             });
             // Mount the Splide instance
+            splide.mount();
+        });
+    };
+    var splideLinkedinInit = ()=>{
+        const els = document.querySelectorAll(".splide-linkedin");
+        if (!els.length) return;
+        // Loop through each splide instance
+        els.forEach((t)=>{
+            // Initialize Splide with the desired configuration
+            const splide = new (0, _splide.Splide)(t, {
+                start: 0,
+                perMove: 1,
+                focus: "center",
+                perPage: 1,
+                pagination: true,
+                autoHeight: true,
+                gap: "3rem",
+                arrows: false,
+                type: "slide",
+                drag: true,
+                snap: true,
+                autoWidth: false,
+                autoplay: false,
+                interval: 2000,
+                pauseOnHover: true,
+                pauseOnFocus: true,
+                resetProgress: false,
+                breakpoints: {
+                    768: {
+                        perPage: 1,
+                        gap: "2rem"
+                    }
+                }
+            }).mount();
             splide.mount();
         });
     };
@@ -1173,7 +1207,7 @@ runSplit();
     };
     // loaded //
     window.addEventListener("DOMContentLoaded", function() {
-        navinit(), faqAccord(), initHeadings(), initMachineHero(), initMaterialStick(), initStickywipe(), splideInit(), splideLInit();
+        navinit(), faqAccord(), initHeadings(), initMachineHero(), initMaterialStick(), initStickywipe(), splideInit(), splideLInit(), splideLinkedinInit();
     // end
     });
     window.addEventListener("pagehide", function() {

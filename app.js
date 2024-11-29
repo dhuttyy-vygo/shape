@@ -419,7 +419,7 @@ var splideInit = () => {
       start: 'top bottom',       // Start when the top of the slider is 75% from the top of the viewport
       onEnter: () => {
         splide.Components.Autoplay.play();  // Start autoplay when entering the viewport
-        ScrollTrigger.getById(t).kill();    // Kill ScrollTrigger to prevent further triggering
+        // ScrollTrigger.getById(t).kill();    // Kill ScrollTrigger to prevent further triggering
       },
     });
 
@@ -490,6 +490,46 @@ var splideLInit = () => {
     });
 
     // Mount the Splide instance
+    splide.mount();
+  });
+}
+
+var splideLinkedinInit = () => {
+  const els = document.querySelectorAll(".splide-linkedin");
+
+  if (!els.length) {
+    return;
+  }
+
+  // Loop through each splide instance
+  els.forEach((t) => {
+    // Initialize Splide with the desired configuration
+    const splide = new Splide(t, {
+      start: 0,                
+      perMove: 1, 
+      focus: "center",
+      perPage: 1,
+      pagination: true,
+      autoHeight: true,
+      gap: '3rem',
+      arrows: false,
+      type: 'slide',
+      drag: true,
+      snap: true,
+      autoWidth: false,
+      autoplay: false,         
+      interval: 2000,          
+      pauseOnHover: true,      
+      pauseOnFocus: true,      
+      resetProgress: false,
+      breakpoints: {
+        768: { 
+          perPage: 1,
+          gap: '2rem',
+        },
+      },
+    }).mount();
+
     splide.mount();
   });
 }
@@ -574,7 +614,7 @@ return timeline;
   // loaded //
 window.addEventListener("DOMContentLoaded", function () {
 
-navinit(), faqAccord(),  initHeadings(),  initMachineHero(), initMaterialStick(), initStickywipe(), splideInit(), splideLInit();
+navinit(), faqAccord(),  initHeadings(),  initMachineHero(), initMaterialStick(), initStickywipe(), splideInit(), splideLInit(), splideLinkedinInit();
 
 
 // end
